@@ -1,2 +1,4 @@
-package org.sid.ebankingbackend.entities;public class Account {
+package org.sid.ebankingbackend.entities;
+
+public class Account {
 }
