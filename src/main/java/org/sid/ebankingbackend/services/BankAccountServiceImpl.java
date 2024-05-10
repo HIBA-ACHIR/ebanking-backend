@@ -2,6 +2,7 @@ package org.sid.ebankingbackend.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.sid.ebankingbackend.dtos.CustomerDTO;
 import org.sid.ebankingbackend.entities.AccountOperation;
 import org.sid.ebankingbackend.entities.BankAccount;
 import org.sid.ebankingbackend.entities.Customer;
@@ -10,16 +11,15 @@ import org.sid.ebankingbackend.enums.OperationType;
 import org.sid.ebankingbackend.exceptions.BalanceNotSufficientException;
 import org.sid.ebankingbackend.exceptions.BankAccountNotFoundException;
 import org.sid.ebankingbackend.exceptions.CustomerNotFoundException;
+import org.sid.ebankingbackend.mappers.BankAccountMapperImpl;
 import org.sid.ebankingbackend.repositories.AccountOperationRepository;
 import org.sid.ebankingbackend.repositories.BankAccountRepository;
 import org.sid.ebankingbackend.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Currency;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,6 +32,7 @@ public class BankAccountServiceImpl implements BankAccountService {
     private CustomerRepository customerRepository;
     private BankAccountRepository bankAccountRepository;
     private AccountOperationRepository accountOperationRepository;
+    private BankAccountMapperImpl dtoMapper;
 
 
     @Override
@@ -63,7 +64,19 @@ public class BankAccountServiceImpl implements BankAccountService {
 
     @Override
     public List<Customer> listCustomers() {
-        return customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
+        List<CustomerDTO> customerDTOS = customers.stream()
+                .map(customer -> dtoMapper.fromCustomer(customer))
+                .collect(Collectors.toList());
+        /*
+        List<CustomerDTO>customerDTOS=new ArrayList<>();
+        for (Customer customer:customers){
+            CustomerDTO customerDTO=dtoMapper.fromCustomer(customer);
+            customerDTOS.add(customerDTO);
+        }
+        *
+        */
+        return customerDTOS;
     }
 
     @Override
@@ -110,5 +123,9 @@ public class BankAccountServiceImpl implements BankAccountService {
         debit(accountIdSource, amount, "Transfer to "+accountIdDestination);
         credit(accountIdDestination,amount,"Transfer from" +accountIdSource);
 
+    }
+    @Override
+    public List<BankAccount> bankAccountList(){
+        return bankAccountRepository.findAll();
     }
 }
