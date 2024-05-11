@@ -28,7 +28,7 @@ Suivez ces étapes pour exécuter l'application localement :
 git clone https://github.com/HIBA-ACHIR/ebanking-backend.git
 ```
 
-### Configuration de la base de données
+### Configuration de la base de données:
 
 Assurez-vous d'avoir une base de données compatible (MySQL, PostgreSQL, etc.) en cours d'exécution. Dans le fichier "application.properties", configurez les informations de connexion à la base de données.
 
