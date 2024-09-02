@@ -74,13 +74,6 @@ L'application suit une architecture client-serveur, avec une séparation claire 
 
 La sécurité de l'application est gérée par Spring Security et JWT. Un jeton JWT est généré lors de l'authentification et doit être inclus dans les en-têtes de chaque demande ultérieure pour accéder aux ressources protégées.
 
-## Demo
-https://github.com/HIBA-ACHIR/ebanking-backend
-<div align="center">
-       <p>
-       <sup>  <strong>Vidéo - </strong>Digital Banking</sup>
-       </p>
-</div>
 
 ## Conclusion
 
